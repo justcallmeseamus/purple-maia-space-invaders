@@ -10,7 +10,7 @@
 <body>
 
 <div id="game"></div>
-
+<script src="assets/js/phaser.js"></script>
     
     
 <script>
@@ -19,7 +19,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, 'game', { preload: preload, cr
 
 function preload() {
 
-    
+    game.load.image('bullet', 'assets/games/invaders/bullet.png');
     game.load.image('enemyBullet', 'assets/games/invaders/enemy-bullet.png');
     game.load.spritesheet('invader', 'assets/games/invaders/invader32x32x4.png', 32, 32);
     game.load.image('ship', 'assets/games/invaders/player.png');
@@ -29,7 +29,8 @@ function preload() {
 
 }
 
-
+var player;
+var aliens;
 var bullets;
 var bulletTime = 0;
 var cursors;
@@ -82,7 +83,7 @@ function create() {
     aliens.enableBody = true;
     aliens.physicsBodyType = Phaser.Physics.ARCADE;
 
-    // createAliens();
+    createAliens();
 
     //  The score
     scoreString = 'Score : ';
@@ -141,16 +142,16 @@ function createAliens () {
     }
 
     function setupInvader (invader) {
-
+        invader.anchor.x= 0.5;
+        invader.anchor.y= 0.5;
+        invader.animations.add('kaboom');
         
 
     }
 
-
-
-
-
-
+  function descend() {
+      aliens.y += 10;
+  }  
 
 
 function update() {
@@ -315,7 +316,13 @@ function resetBullet (bullet) {
     bullet.kill();
 
 }
-
+function restart() {
+    lives.callAll('revive');
+    createAliens();
+    
+    player.revive():
+    stateText.visible = false;
+}
 
 </script>
 
